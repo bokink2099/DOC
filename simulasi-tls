@@ -30,38 +30,31 @@ tls-local/
 openssl genrsa -out ca/myCA.key 2048
 
 📄 Buat Sertifikat Self-Signed untuk CA
-bash
-Copy
-Edit
+
 openssl req -x509 -new -nodes -key ca/myCA.key -sha256 -days 3650 -out ca/myCA.crt
+
 Isi metadata sesuai kebutuhan. Common Name (CN) bisa diisi: My Local CA
 
 🧾 2. Buat Key dan CSR untuk Server (localhost)
 🔑 Generate Private Key untuk Server
-bash
-Copy
-Edit
+
 openssl genrsa -out server/mysite.key 2048
 📄 Buat CSR (Certificate Signing Request)
-bash
-Copy
-Edit
+
 openssl req -new -key server/mysite.key -out server/mysite.csr
+
 Isikan Common Name: localhost
 Ini penting agar cocok dengan domain saat dipakai di curl atau nginx.
 
 ✍️ 3. Tanda Tangani CSR Menggunakan CA
-bash
-Copy
-Edit
+
 openssl x509 -req -in server/mysite.csr \
   -CA ca/myCA.crt -CAkey ca/myCA.key -CAcreateserial \
   -out server/mysite.crt -days 825 -sha256
+
 🌐 4. Testing dengan Nginx
 Contoh Konfigurasi Nginx
-nginx
-Copy
-Edit
+
 server {
     listen 443 ssl;
     server_name localhost;
@@ -74,24 +67,20 @@ server {
     }
 }
 Coba Akses Pakai curl
-bash
-Copy
-Edit
+
 curl --cacert ca/myCA.crt https://localhost
+
 Tanpa --cacert, curl akan anggap cert tidak trusted.
 
 🖥️ (Opsional) Trust CA di MacOS
-bash
-Copy
-Edit
+
 sudo security add-trusted-cert -d -r trustRoot \
   -k /Library/Keychains/System.keychain ca/myCA.crt
+
 Setelah ini, lo bisa akses:
 
-bash
-Copy
-Edit
 curl https://localhost
+
 Tanpa warning lagi.
 
 🧠 Penjelasan Singkat Tiap File
@@ -103,15 +92,15 @@ mysite.csr	Permintaan tanda tangan cert dari server
 mysite.crt	Cert final server, ditandatangani oleh CA
 
 🔄 Diagram Alur TLS Lokal
-text
-Copy
-Edit
+
 [ CA (myCA.key + myCA.crt) ]
          ↓
   [ Sign CSR (mysite.csr) ]
          ↓
 [ Output: mysite.crt + mysite.key ] → digunakan di Nginx / TLS server
+
 🧪 Next Steps (Lanjutan Opsional)
+
 ✅ Tambahkan SAN (Subject Alternative Name)
 
 ✅ Buat intermediate CA
@@ -122,14 +111,9 @@ Edit
 
 ✅ Validasi sertifikat dengan openssl:
 
-bash
-Copy
-Edit
 openssl verify -CAfile ca/myCA.crt server/mysite.crt
 📌 Referensi Singkat Perintah
-bash
-Copy
-Edit
+
 # Generate private key (CA/server)
 openssl genrsa -out file.key 2048
 
