@@ -11,13 +11,21 @@ Membuat infrastruktur TLS secara penuh seperti di environment production, tapi h
 ## 📂 Struktur Direktori
 
 tls-local/
+
 ├── ca/
+
 │ ├── myCA.key # Private key CA
+
 │ └── myCA.crt # Public cert CA (self-signed)
+
 ├── server/
+
 │ ├── mysite.key # Private key server (localhost)
+
 │ ├── mysite.csr # Certificate Signing Request
+
 │ └── mysite.crt # Sertifikat final ditandatangani oleh CA
+
 └── README.md
 
 ---
