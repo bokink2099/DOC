@@ -9,6 +9,7 @@ Membuat infrastruktur TLS secara penuh seperti di environment production, tapi h
 5. (Opsional) Menambahkan CA ke sistem agar dianggap trusted
 
 ## 📂 Struktur Direktori
+
 tls-local/
 ├── ca/
 │ ├── myCA.key # Private key CA
@@ -18,8 +19,6 @@ tls-local/
 │ ├── mysite.csr # Certificate Signing Request
 │ └── mysite.crt # Sertifikat final ditandatangani oleh CA
 └── README.md
----
-
 
 ---
 
